@@ -63,12 +63,6 @@
     var floor14 = L.imageOverlay('Level 14.png', bounds);
     var floor15 = L.imageOverlay('Level 15.png', bounds);
 
-    // Fit the map to the bounds of the image
-    map.fitBounds(bounds);
-    
-    // Optional: restrict panning beyond map boundaries
-    map.setMaxBounds(bounds);
-
     function switchFloor(floorNumber) {
       // Remove all floor overlays
       floorB1.remove();
