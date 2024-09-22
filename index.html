@@ -20,6 +20,8 @@
 
   <div class="controls">
     <button onclick="centerMap()">Center Map</button>
+    <button onclick="startTracking()">Start Tracking</button>
+    <button onclick="stopTracking()">Stop Tracking</button>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -83,6 +85,54 @@
     // Function to center the map back to the original view
     function centerMap() {
       map.setView(initialCenter, initialZoom);
+    }
+
+    // Variables for tracking
+    var userMarker;
+    var isTracking = false;
+
+    // Function to start tracking the user’s location
+    function startTracking() {
+      if (navigator.geolocation) {
+        map.locate({watch: true, setView: false});  // Enable continuous tracking without changing the map view
+        map.on('locationfound', onLocationFound);   // When location is found, update the position
+        map.on('locationerror', onLocationError);   // Handle errors
+        isTracking = true;
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    // Function to stop tracking
+    function stopTracking() {
+      if (isTracking) {
+        map.stopLocate();  // Stop location tracking
+        if (userMarker) {
+          map.removeLayer(userMarker);  // Remove the user marker from the map
+        }
+        isTracking = false;
+      }
+    }
+
+    // Handle the location found event
+    function onLocationFound(e) {
+      var radius = e.accuracy / 2;
+
+      // Remove the old marker, if it exists
+      if (userMarker) {
+        map.removeLayer(userMarker);
+      }
+
+      // Add a marker for the user's location and show the accuracy circle
+      userMarker = L.circleMarker(e.latlng, {
+        radius: 8,
+        color: 'blue'
+      }).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup();
+    }
+
+    // Handle location errors
+    function onLocationError(e) {
+      alert(e.message);  // Alert the user of any location errors
     }
 
   </script>
