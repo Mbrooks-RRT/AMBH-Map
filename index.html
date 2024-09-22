@@ -10,19 +10,30 @@
       height: 600px;
       width: 100%;
     }
+    .controls {
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
   <div id="map"></div>
 
+  <div class="controls">
+    <button onclick="centerMap()">Center Map</button>
+  </div>
+
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script>
+    // Initial center coordinates and zoom level
+    var initialCenter = [750, 750]; // Center of the map based on the image dimensions
+    var initialZoom = 0;
+
     // Initialize the map
     var map = L.map('map', {
-      center: [750, 750],      // Center the map at the midpoint of the image (for a 1500x1500 map)
-      zoom: 0,                 // Initial zoom level
-      minZoom: -2,             // Allow zooming out further
-      crs: L.CRS.Simple         // Use CRS.Simple for non-geographical maps
+      center: initialCenter,      // Center the map at the midpoint of the image
+      zoom: initialZoom,          // Initial zoom level
+      minZoom: -2,                // Allow zooming out further
+      crs: L.CRS.Simple           // Use CRS.Simple for non-geographical maps
     });
 
     // Define the bounds based on your image dimensions (1500x1500)
@@ -32,7 +43,7 @@
 
     // Create overlays for each floor
     var floorB1 = L.imageOverlay('B Level.png', bounds);
-    var floor1 = L.imageOverlay('Level 1.png', bounds);
+    var floor1 = L.imageOverlay('Level 1.png', bounds).addTo(map); // Default floor
     var floor2 = L.imageOverlay('Level 2.png', bounds);
     var floor3 = L.imageOverlay('Level 3.png', bounds);
     var floor4 = L.imageOverlay('Level 4.png', bounds);
@@ -47,30 +58,32 @@
     var floor14 = L.imageOverlay('Level 14.png', bounds);
     var floor15 = L.imageOverlay('Level 15.png', bounds);
 
-    // Set the first floor to be displayed by default
-    floor1.addTo(map);
-
-    // Add layer control for switching between floors
+    // Add descriptions for each floor next to their layer name
     var baseLayers = {
-      "Basement Floor": floorB1,
-      "Floor 1": floor1,
-      "Floor 2": floor2,
-      "Floor 3": floor3,
-      "Floor 4": floor4,
-      "Floor 5": floor5,
-      "Floor 6": floor6,
-      "Floor 7": floor7,
-      "Floor 8": floor8,
-      "Floor 9": floor9,
-      "Floor 10": floor10,
-      "Floor 11": floor11,
-      "Floor 12": floor12,
-      "Floor 14": floor14,
-      "Floor 15": floor15
+      "Basement Floor (B1 - Mechanical Equipment)": floorB1,
+      "Floor 1 (Lobby and Emergency)": floor1,
+      "Floor 2 (Outpatient Services)": floor2,
+      "Floor 3 (Pediatrics)": floor3,
+      "Floor 4 (Surgery)": floor4,
+      "Floor 5 (ICU and Recovery)": floor5,
+      "Floor 6 (Maternity Ward)": floor6,
+      "Floor 7 (General Wards)": floor7,
+      "Floor 8 (Cardiology)": floor8,
+      "Floor 9 (Radiology and Imaging)": floor9,
+      "Floor 10 (Orthopedics)": floor10,
+      "Floor 11 (Neurology)": floor11,
+      "Floor 12 (Oncology)": floor12,
+      "Floor 14 (Administration and Research)": floor14,
+      "Floor 15 (Executive Offices)": floor15
     };
 
-    // Add the layer control to the map
+    // Add the layer control to the map with descriptions
     L.control.layers(baseLayers).addTo(map);
+
+    // Function to center the map back to the original view
+    function centerMap() {
+      map.setView(initialCenter, initialZoom);
+    }
 
   </script>
 </body>
