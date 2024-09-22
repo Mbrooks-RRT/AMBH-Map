@@ -10,45 +10,28 @@
       height: 600px;
       width: 100%;
     }
-    button {
-      margin: 3px;
-    }
   </style>
 </head>
 <body>
   <div id="map"></div>
 
-  <button onclick="switchFloor('B1')">Floor B1</button>
-  <button onclick="switchFloor(1)">Floor 1</button>
-  <button onclick="switchFloor(2)">Floor 2</button>
-  <button onclick="switchFloor(3)">Floor 3</button>
-  <button onclick="switchFloor(4)">Floor 4</button>
-  <button onclick="switchFloor(5)">Floor 5</button>
-  <button onclick="switchFloor(6)">Floor 6</button>
-  <button onclick="switchFloor(7)">Floor 7</button>
-  <button onclick="switchFloor(8)">Floor 8</button>
-  <button onclick="switchFloor(9)">Floor 9</button>
-  <button onclick="switchFloor(10)">Floor 10</button>
-  <button onclick="switchFloor(11)">Floor 11</button>
-  <button onclick="switchFloor(12)">Floor 12</button>
-  <button onclick="switchFloor(14)">Floor 14</button>
-  <button onclick="switchFloor(15)">Floor 15</button>
-
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script>
+    // Initialize the map
     var map = L.map('map', {
-      center: [750, 750],      // Adjusted center to match the image’s dimensions
+      center: [750, 750],      // Center the map at the midpoint of the image (for a 1500x1500 map)
       zoom: 0,                 // Initial zoom level
-      minZoom: -2,             // Allows zooming out further
-      crs: L.CRS.Simple         // Using CRS.Simple for non-geographical maps
+      minZoom: -2,             // Allow zooming out further
+      crs: L.CRS.Simple         // Use CRS.Simple for non-geographical maps
     });
 
+    // Define the bounds based on your image dimensions (1500x1500)
     var mapWidth = 1500; 
     var mapHeight = 1500;
     var bounds = [[0, 0], [mapHeight, mapWidth]];
 
-    // Adding image overlays for each floor
-    var floorB1 = L.imageOverlay('B Level.png', bounds).addTo(map);
+    // Create overlays for each floor
+    var floorB1 = L.imageOverlay('B Level.png', bounds);
     var floor1 = L.imageOverlay('Level 1.png', bounds);
     var floor2 = L.imageOverlay('Level 2.png', bounds);
     var floor3 = L.imageOverlay('Level 3.png', bounds);
@@ -64,60 +47,30 @@
     var floor14 = L.imageOverlay('Level 14.png', bounds);
     var floor15 = L.imageOverlay('Level 15.png', bounds);
 
-    // Remove map.fitBounds(bounds) to prevent auto-centering or resetting the view
-    // map.fitBounds(bounds);  <-- This is removed to stop jumping back to center
+    // Set the first floor to be displayed by default
+    floor1.addTo(map);
 
-    function switchFloor(floorNumber) {
-      // Remove all floor overlays
-      floorB1.remove();
-      floor1.remove();
-      floor2.remove();
-      floor3.remove();
-      floor4.remove();
-      floor5.remove();
-      floor6.remove();
-      floor7.remove();
-      floor8.remove();
-      floor9.remove();
-      floor10.remove();
-      floor11.remove();
-      floor12.remove();  
-      floor14.remove();
-      floor15.remove();
+    // Add layer control for switching between floors
+    var baseLayers = {
+      "Basement Floor": floorB1,
+      "Floor 1": floor1,
+      "Floor 2": floor2,
+      "Floor 3": floor3,
+      "Floor 4": floor4,
+      "Floor 5": floor5,
+      "Floor 6": floor6,
+      "Floor 7": floor7,
+      "Floor 8": floor8,
+      "Floor 9": floor9,
+      "Floor 10": floor10,
+      "Floor 11": floor11,
+      "Floor 12": floor12,
+      "Floor 14": floor14,
+      "Floor 15": floor15
+    };
 
-      // Add the selected floor back to the map
-      if (floorNumber === 'B1') {
-        floorB1.addTo(map);
-      } else if (floorNumber === 1) {
-        floor1.addTo(map);
-      } else if (floorNumber === 2) {
-        floor2.addTo(map);
-      } else if (floorNumber === 3) {
-        floor3.addTo(map);
-      } else if (floorNumber === 4) {
-        floor4.addTo(map);
-      } else if (floorNumber === 5) {
-        floor5.addTo(map);
-      } else if (floorNumber === 6) {
-        floor6.addTo(map);
-      } else if (floorNumber === 7) {
-        floor7.addTo(map);
-      } else if (floorNumber === 8) {
-        floor8.addTo(map);
-      } else if (floorNumber === 9) {
-        floor9.addTo(map);
-      } else if (floorNumber === 10) {
-        floor10.addTo(map);
-      } else if (floorNumber === 11) {
-        floor11.addTo(map);
-      } else if (floorNumber === 12) {
-        floor12.addTo(map);
-      } else if (floorNumber === 14) {
-        floor14.addTo(map);
-      } else if (floorNumber === 15) {
-        floor15.addTo(map);
-      }
-    }
+    // Add the layer control to the map
+    L.control.layers(baseLayers).addTo(map);
 
   </script>
 </body>
