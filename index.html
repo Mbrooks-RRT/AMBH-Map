@@ -25,20 +25,22 @@
       flex-direction: column;
     }
 
+    /* Full-screen map */
     #map {
-      height: 600px;
-      width: 100%;
-      max-width: 10000px; /* Adjust width to accommodate floors side by side */
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
+      height: 100vh;  /* Takes up the full vertical space of the browser window */
+      width: 100vw;   /* Takes up the full width of the browser window */
+      border-radius: 0;
+      margin-bottom: 0;
+      box-shadow: none;  /* Remove shadow for cleaner look in full screen */
     }
 
     .controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
       display: flex;
       gap: 10px;
-      margin-bottom: 20px;
-      justify-content: center;
+      z-index: 1000; /* Ensures buttons stay on top of the map */
     }
 
     button {
@@ -63,11 +65,8 @@
     }
 
     @media (max-width: 768px) {
-      #map {
-        height: 400px;
-      }
-
       button {
+        padding: 10
         padding: 10px;
         font-size: 12px;
       }
