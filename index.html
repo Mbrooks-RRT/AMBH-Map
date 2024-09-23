@@ -22,18 +22,19 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      flex-direction: column;
+      width: 100vw;
     }
 
-    /* Full-screen map */
+    /* Map taking up 80% of the screen */
     #map {
-      height: 80vh;  /* Takes up the full vertical space of the browser window */
-      width: 100vw;   /* Takes up the full width of the browser window */
-      border-radius: 0;
-      margin-bottom: 0;
-      box-shadow: none;  /* Remove shadow for cleaner look in full screen */
+      height: 80vh;  /* 80% of the viewport height */
+      width: 80vw;   /* 80% of the viewport width */
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
     }
 
+    /* Controls positioned above the map */
     .controls {
       position: absolute;
       top: 10px;
@@ -65,8 +66,12 @@
     }
 
     @media (max-width: 768px) {
+      #map {
+        height: 70vh; /* Slightly smaller on mobile for better scrolling */
+        width: 90vw;  /* More width on mobile */
+      }
+
       button {
-        padding: 10
         padding: 10px;
         font-size: 12px;
       }
