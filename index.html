@@ -133,7 +133,7 @@
       var floor9 = L.imageOverlay('Level 9.png', floor9Bounds).addTo(map);    // Level 9
       var floor10 = L.imageOverlay('Level 10.png', floor10Bounds).addTo(map); // Level 10
       var floor11 = L.imageOverlay('Level 11.png', floor11Bounds).addTo(map); // Level 11
-      var floor12 = L.imageOverlay('Level 12.png', floor12Bounds).addTo(map); // Level 12
+            var floor12 = L.imageOverlay('Level 12.png', floor12Bounds).addTo(map); // Level 12
       var floor14 = L.imageOverlay('Level 14.png', floor14Bounds).addTo(map); // Level 14
       var floor15 = L.imageOverlay('Level 15.png', floor15Bounds).addTo(map); // Level 15
       var floor16 = L.imageOverlay('Level 16.png', floor16Bounds).addTo(map); // Floor 16
@@ -159,4 +159,16 @@
       };
 
       // Add layer control to switch between floors (if needed)
-      L.control.layers(base
+      L.control.layers(baseLayers).addTo(map);
+
+      // Function to center the map back to its original position
+      function centerMap() {
+        map.setView([750, 8000], 0); // Centers the map horizontally in the middle of all the floors
+      }
+
+      // Attach the center map function to the button
+      window.centerMap = centerMap;
+    });
+  </script>
+</body>
+</html>
