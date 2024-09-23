@@ -81,8 +81,6 @@
   <!-- Controls for map interaction -->
   <div class="controls">
     <button onclick="centerMap()">Center Map</button>
-    <button onclick="startTracking()">Start Tracking</button>
-    <button onclick="stopTracking()">Stop Tracking</button>
   </div>
 
   <!-- Leaflet.js Script -->
@@ -105,21 +103,22 @@
       var bounds = [[0, 0], [mapHeight, mapWidth]];
 
       // Create overlays for each floor
-      var floorB1 = L.imageOverlay('B Level.png', bounds);
-      var floor1 = L.imageOverlay('Level 1.png', bounds).addTo(map); // Default floor
-      var floor2 = L.imageOverlay('Level 2.png', bounds);
-      var floor3 = L.imageOverlay('Level 3.png', bounds);
-      var floor4 = L.imageOverlay('Level 4.png', bounds);
-      var floor5 = L.imageOverlay('Level 5.png', bounds);
-      var floor6 = L.imageOverlay('Level 6.png', bounds);
-      var floor7 = L.imageOverlay('Level 7.png', bounds);
-      var floor8 = L.imageOverlay('Level 8.png', bounds);
-      var floor9 = L.imageOverlay('Level 9.png', bounds);
+      var floorB1 = L.imageOverlay('B Level.png', B Level South, bounds);
+      var floor1 = L.imageOverlay('Level 1.png', 'Level 1 South.png, bounds').addTo(map); // Default floor
+      var floor2 = L.imageOverlay('Level 2.png', 'Level 2 South.png', 'Level 2B South.png', bounds);
+      var floor3 = L.imageOverlay('Level 3.png', 'Level 3B South.png, bounds);
+      var floor4 = L.imageOverlay('Level 4.png', 'Level 4 South.png', bounds);
+      var floor5 = L.imageOverlay('Level 5.png', 'Level 5 South.png', bounds);
+      var floor6 = L.imageOverlay('Level 6.png', 'Level 6 South.png' bounds);
+      var floor7 = L.imageOverlay('Level 7.png', 'Level 7 South.png', bounds);
+      var floor8 = L.imageOverlay('Level 8.png', 'Level 8 South.png', bounds);
+      var floor9 = L.imageOverlay('Level 9.png', 'Level 9 South.png', bounds);
       var floor10 = L.imageOverlay('Level 10.png', bounds);
       var floor11 = L.imageOverlay('Level 11.png', bounds);
       var floor12 = L.imageOverlay('Level 12.png', bounds);
-      var floor14 = L.imageOverlay('Level 14.png', bounds);
-      var floor15 = L.imageOverlay('Level 15.png', bounds);
+      var floor14 = L.imageOverlay('Level 14.png', 'Level 14 South.pmg', bounds);
+      var floor15 = L.imageOverlay('Level 15.png', 'Level 15 South.png', bounds);
+      var floor16 = L.imageOverlay('Level 16 South.png', bounds);
 
       // Add descriptions for each floor next to their layer name
       var baseLayers = {
@@ -138,6 +137,7 @@
         "Floor 12 (TSU AND GPC)": floor12,
         "Floor 14 (TICU AND GPC)": floor14,
         "Floor 15 ()": floor15
+        "Floor 16 ()": floor16
       };
 
       // Add layer control to switch between floors
