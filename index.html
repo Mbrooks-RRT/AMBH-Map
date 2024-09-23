@@ -4,14 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hospital Interactive Map</title>
-  <!-- Google Fonts for Sleek Typography -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 
-  <!-- Modernized Custom Styles -->
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  
+  <!-- Custom Styles -->
   <style>
     body {
       font-family: 'Roboto', sans-serif;
+      background-color: #f4f4f9;
       margin: 0;
       padding: 0;
       display: flex;
@@ -26,6 +30,7 @@
       width: 100%;
       max-width: 1000px;
       border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px;
     }
 
@@ -58,10 +63,6 @@
     }
 
     @media (max-width: 768px) {
-      body {
-        padding: 20px;
-      }
-
       #map {
         height: 400px;
       }
@@ -88,83 +89,90 @@
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
   <script>
-    // Initial center coordinates and zoom level
-    var initialCenter = [750, 750]; // Center of the map based on the image dimensions
-    var initialZoom = 0;
+    // Ensure the DOM is fully loaded before initializing the map
+    document.addEventListener("DOMContentLoaded", function() {
+      // Initialize the map
+      var map = L.map('map', {
+        center: [750, 750],      // Center the map at the midpoint of the image
+        zoom: 0,                 // Initial zoom level
+        minZoom: -2,             // Allow zooming out further
+        crs: L.CRS.Simple        // Use CRS.Simple for non-geographical maps
+      });
 
-    // Initialize the map
-    var map = L.map('map', {
-      center: initialCenter,      // Center the map at the midpoint of the image
-      zoom: initialZoom,          // Initial zoom level
-      minZoom: -2,                // Allow zooming out further
-      crs: L.CRS.Simple           // Use CRS.Simple for non-geographical maps
-    });
+      // Define bounds based on image dimensions
+      var mapWidth = 1500; 
+      var mapHeight = 1500;
+      var bounds = [[0, 0], [mapHeight, mapWidth]];
 
-    // Define the bounds based on your image dimensions (1500x1500)
-    var mapWidth = 1500; 
-    var mapHeight = 1500;
-    var bounds = [[0, 0], [mapHeight, mapWidth]];
+      // Add a floor plan overlay (replace 'Level 1.png' with your actual image)
+      var floor1 = L.imageOverlay('Level 1.png', bounds).addTo(map); // Default floor
 
-    // Create overlays for each floor
-    var floorB1 = L.imageOverlay('B Level.png', bounds);
-    var floor1 = L.imageOverlay('Level 1.png', bounds).addTo(map); // Default floor
-    var floor2 = L.imageOverlay('Level 2.png', bounds);
-    var floor3 = L.imageOverlay('Level 3.png', bounds);
-    var floor4 = L.imageOverlay('Level 4.png', bounds);
-    var floor5 = L.imageOverlay('Level 5.png', bounds);
-    var floor6 = L.imageOverlay('Level 6.png', bounds);
-    var floor7 = L.imageOverlay('Level 7.png', bounds);
-    var floor8 = L.imageOverlay('Level 8.png', bounds);
-    var floor9 = L.imageOverlay('Level 9.png', bounds);
-    var floor10 = L.imageOverlay('Level 10.png', bounds);
-    var floor11 = L.imageOverlay('Level 11.png', bounds);
-    var floor12 = L.imageOverlay('Level 12.png', bounds);
-    var floor14 = L.imageOverlay('Level 14.png', bounds);
-    var floor15 = L.imageOverlay('Level 15.png', bounds);
+      // Add layer control for future floors (if needed)
+      var baseLayers = {
+        "Floor 1": floor1
+        // Add other floors as needed, e.g., "Floor 2": L.imageOverlay('Level 2.png', bounds)
+      };
 
-    // Add descriptions for each floor next to their layer name
-    var baseLayers = {
-      "Basement Floor": floorB1,
-      "Floor 1 (Lobby and Emergency)": floor1,
-      "Floor 2 (PACU and Day Surgery)": floor2,
-      "Floor 3 (Pharmacy/Blood bank)": floor3,
-      "Floor 4 (CICU and Cath lab)": floor4,
-      "Floor 5 (CACU)": floor5,
-      "Floor 6 (NICU)": floor6,
-      "Floor 7 (NICU and PICU)": floor7,
-      "Floor 8 (PICU and Respiratory)": floor8,
-      "Floor 9 (AFLAC)": floor9,
-      "Floor 10 (BMT)": floor10,
-      "Floor 11 ()": floor11,
-      "Floor 12 (TSU AND GPC)": floor12,
-      "Floor 14 (TICU AND GPC)": floor14,
-      "Floor 15 ()": floor15
-    };
+      L.control.layers(baseLayers).addTo(map);
 
-    // Add the layer control to the map with descriptions
-    L.control.layers(baseLayers).addTo(map);
-
-    // Function to center the map back to the original view
-    function centerMap() {
-      map.setView(initialCenter, initialZoom);
-    }
-
-    // Variables for tracking
-    var userMarker;
-    var isTracking = false;
-
-    // Function to start tracking the user’s location
-    function startTracking() {
-      if (navigator.geolocation) {
-        map.locate({watch: true, setView: false});  // Enable continuous tracking without changing the map view
-        map.on('locationfound', onLocationFound);   // When location is found, update the position
-        map.on('locationerror', onLocationError);   // Handle errors
-        isTracking = true;
-      } else {
-        alert("Geolocation is not supported by this browser.");
+      // Function to center the map back to its original position
+      function centerMap() {
+        map.setView([750, 750], 0); // Resets to initial center and zoom
       }
-    }
 
-    // Function to stop tracking
-    function stopTracking() {
-      if (isTracking) {
+      // Variables for tracking
+      var userMarker;
+      var isTracking = false;
+
+      // Function to start tracking the user’s location
+      function startTracking() {
+        if (navigator.geolocation) {
+          map.locate({watch: true, setView: false});  // Enable continuous tracking without changing the map view
+          map.on('locationfound', onLocationFound);   // When location is found, update the position
+          map.on('locationerror', onLocationError);   // Handle errors
+          isTracking = true;
+        } else {
+          alert("Geolocation is not supported by this browser.");
+        }
+      }
+
+      // Function to stop tracking
+      function stopTracking() {
+        if (isTracking) {
+          map.stopLocate();  // Stop location tracking
+          if (userMarker) {
+            map.removeLayer(userMarker);  // Remove the user marker from the map
+          }
+          isTracking = false;
+        }
+      }
+
+      // Handle the location found event
+      function onLocationFound(e) {
+        var radius = e.accuracy / 2;
+
+        // Remove the old marker, if it exists
+        if (userMarker) {
+          map.removeLayer(userMarker);
+        }
+
+        // Add a marker for the user's location and show the accuracy circle
+        userMarker = L.circleMarker(e.latlng, {
+          radius: 8,
+          color: 'blue'
+        }).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup();
+      }
+
+      // Handle location errors
+      function onLocationError(e) {
+        alert("Unable to access your location. Please enable location services in your device or browser settings.");
+      }
+
+      // Attach functions to the buttons
+      window.centerMap = centerMap;
+      window.startTracking = startTracking;
+      window.stopTracking = stopTracking;
+    });
+  </script>
+</body>
+</html>
