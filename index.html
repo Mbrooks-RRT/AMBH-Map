@@ -28,7 +28,7 @@
     #map {
       height: 600px;
       width: 100%;
-      max-width: 16000px; /* Increased width to accommodate all floors */
+      max-width: 10000px; /* Adjust width to accommodate floors side by side */
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px;
@@ -97,50 +97,89 @@
         crs: L.CRS.Simple        // Use CRS.Simple for non-geographical maps
       });
 
-      // Define overall map size to accommodate all floors next to each other
-      var mapWidth = 16000;  // Increased width to accommodate all floors horizontally
-      var mapHeight = 1500;  // Adjust height based on your image height
+      // Define overall map size
+      var mapHeight = 1500;  // Height for all images
+      var mapWidth = 2000;   // Width to accommodate two images side by side per level
       var bounds = [[0, 0], [mapHeight, mapWidth]];
 
-      // Create unique bounds for each floor to place them side by side
-      var floorB1Bounds = [[0, 0], [mapHeight, 1000]];           // Floor B1 in the first 1000px width
-      var floor1Bounds = [[0, 1000], [mapHeight, 2000]];         // Floor 1 next to Floor B1
-      var floor2Bounds = [[0, 2000], [mapHeight, 3000]];         // Floor 2 next to Floor 1
-      var floor3Bounds = [[0, 3000], [mapHeight, 4000]];         // Floor 3 next to Floor 2
-      var floor4Bounds = [[0, 4000], [mapHeight, 5000]];         // Floor 4 next to Floor 3
-      var floor5Bounds = [[0, 5000], [mapHeight, 6000]];         // Floor 5 next to Floor 4
-      var floor6Bounds = [[0, 6000], [mapHeight, 7000]];         // Floor 6 next to Floor 5
-      var floor7Bounds = [[0, 7000], [mapHeight, 8000]];         // Floor 7 next to Floor 6
-      var floor8Bounds = [[0, 8000], [mapHeight, 9000]];         // Floor 8 next to Floor 7
-      var floor9Bounds = [[0, 9000], [mapHeight, 10000]];        // Floor 9 next to Floor 8
-      var floor10Bounds = [[0, 10000], [mapHeight, 11000]];      // Floor 10 next to Floor 9
-      var floor11Bounds = [[0, 11000], [mapHeight, 12000]];      // Floor 11 next to Floor 10
-      var floor12Bounds = [[0, 12000], [mapHeight, 13000]];      // Floor 12 next to Floor 11
-      var floor14Bounds = [[0, 13000], [mapHeight, 14000]];      // Floor 14 next to Floor 12
-      var floor15Bounds = [[0, 14000], [mapHeight, 15000]];      // Floor 15 next to Floor 14
-      var floor16Bounds = [[0, 15000], [mapHeight, 16000]];      // Floor 16 next to Floor 15
+      // Create unique bounds for images that are side by side
+      var leftBounds = [[0, 0], [mapHeight, 1000]];     // Left half (e.g., Level 1)
+      var rightBounds = [[0, 1000], [mapHeight, 2000]]; // Right half (e.g., Level 1 South)
 
-      // Create overlays for each floor using the unique bounds
-      var floorB1 = L.imageOverlay('B Level.png', floorB1Bounds).addTo(map);  // B Level
-      var floor1 = L.imageOverlay('Level 1.png', floor1Bounds).addTo(map);    // Level 1
-      var floor2 = L.imageOverlay('Level 2.png', floor2Bounds).addTo(map);    // Level 2
-      var floor3 = L.imageOverlay('Level 3.png', floor3Bounds).addTo(map);    // Level 3
-      var floor4 = L.imageOverlay('Level 4.png', floor4Bounds).addTo(map);    // Level 4
-      var floor5 = L.imageOverlay('Level 5.png', floor5Bounds).addTo(map);    // Level 5
-      var floor6 = L.imageOverlay('Level 6.png', floor6Bounds).addTo(map);    // Level 6
-      var floor7 = L.imageOverlay('Level 7.png', floor7Bounds).addTo(map);    // Level 7
-      var floor8 = L.imageOverlay('Level 8.png', floor8Bounds).addTo(map);    // Level 8
-      var floor9 = L.imageOverlay('Level 9.png', floor9Bounds).addTo(map);    // Level 9
-      var floor10 = L.imageOverlay('Level 10.png', floor10Bounds).addTo(map); // Level 10
-      var floor11 = L.imageOverlay('Level 11.png', floor11Bounds).addTo(map); // Level 11
-            var floor12 = L.imageOverlay('Level 12.png', floor12Bounds).addTo(map); // Level 12
-      var floor14 = L.imageOverlay('Level 14.png', floor14Bounds).addTo(map); // Level 14
-      var floor15 = L.imageOverlay('Level 15.png', floor15Bounds).addTo(map); // Level 15
-      var floor16 = L.imageOverlay('Level 16.png', floor16Bounds).addTo(map); // Floor 16
+      // Group each level with its corresponding "South" side by side
+      var floor1 = L.layerGroup([
+        L.imageOverlay('Level 1.png', leftBounds),
+        L.imageOverlay('Level 1 South.png', rightBounds)
+      ]).addTo(map); // Level 1 and Level 1 South
+
+      var floor2 = L.layerGroup([
+        L.imageOverlay('Level 2.png', leftBounds),
+        L.imageOverlay('Level 2 South.png', rightBounds)
+      ]);
+
+      var floor3 = L.layerGroup([
+        L.imageOverlay('Level 3.png', leftBounds),
+        L.imageOverlay('Level 3 South.png', rightBounds)
+      ]);
+
+      var floor4 = L.layerGroup([
+        L.imageOverlay('Level 4.png', leftBounds),
+        L.imageOverlay('Level 4 South.png', rightBounds)
+      ]);
+
+      var floor5 = L.layerGroup([
+        L.imageOverlay('Level 5.png', leftBounds),
+        L.imageOverlay('Level 5 South.png', rightBounds)
+      ]);
+
+      var floor6 = L.layerGroup([
+        L.imageOverlay('Level 6.png', leftBounds),
+        L.imageOverlay('Level 6 South.png', rightBounds)
+      ]);
+
+      var floor7 = L.layerGroup([
+        L.imageOverlay('Level 7.png', leftBounds),
+        L.imageOverlay('Level 7 South.png', rightBounds)
+      ]);
+
+      var floor8 = L.layerGroup([
+        L.imageOverlay('Level 8.png', leftBounds),
+        L.imageOverlay('Level 8 South.png', rightBounds)
+      ]);
+
+      var floor9 = L.layerGroup([
+        L.imageOverlay('Level 9.png', leftBounds),
+        L.imageOverlay('Level 9 South.png', rightBounds)
+      ]);
+
+      var floor10 = L.layerGroup([
+        L.imageOverlay('Level 10.png', leftBounds)
+      ]);
+
+      var floor11 = L.layerGroup([
+        L.imageOverlay('Level 11.png', leftBounds)
+      ]);
+
+      var floor12 = L.layerGroup([
+        L.imageOverlay('Level 12.png', leftBounds)
+      ]);
+
+      var floor14 = L.layerGroup([
+        L.imageOverlay('Level 14.png', leftBounds),
+        L.imageOverlay('Level 14 South.png', rightBounds)
+      ]);
+
+      var floor15 = L.layerGroup([
+        L.imageOverlay('Level 15.png', leftBounds),
+        L.imageOverlay('Level 15 South.png', rightBounds)
+      ]);
+
+      var floor16 = L.layerGroup([
+        L.imageOverlay('Level 16.png', leftBounds)
+      ]);
 
       // Add descriptions for each floor in the layer control
       var baseLayers = {
-        "Basement Floor (B Level)": floorB1,
         "Floor 1 (Lobby and Emergency)": floor1,
         "Floor 2 (PACU and Day Surgery)": floor2,
         "Floor 3 (Pharmacy/Blood Bank)": floor3,
@@ -151,19 +190,19 @@
         "Floor 8 (PICU and Respiratory)": floor8,
         "Floor 9 (AFLAC)": floor9,
         "Floor 10 (BMT)": floor10,
-        "Floor 11 ()": floor11,
+        "Floor 11": floor11,
         "Floor 12 (TSU AND GPC)": floor12,
         "Floor 14 (TICU AND GPC)": floor14,
-        "Floor 15 ()": floor15,
-        "Floor 16 ()": floor16
+        "Floor 15": floor15,
+        "Floor 16": floor16
       };
 
-      // Add layer control to switch between floors (if needed)
+      // Add layer control to switch between floors
       L.control.layers(baseLayers).addTo(map);
 
       // Function to center the map back to its original position
       function centerMap() {
-        map.setView([750, 8000], 0); // Centers the map horizontally in the middle of all the floors
+        map.setView([750, 1000], 0); // Centers the map horizontally to show middle floors
       }
 
       // Attach the center map function to the button
