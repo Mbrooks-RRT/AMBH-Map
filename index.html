@@ -4,39 +4,91 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hospital Interactive Map</title>
+  <!-- Google Fonts for Sleek Typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+  <!-- Modernized Custom Styles -->
   <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #00000500;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
     #map {
       height: 600px;
       width: 100%;
+      max-width: 1000px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
     }
+
     .controls {
-      margin: 10px 0;
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: center;
     }
+
     button {
-      margin: 5px;
-      padding: 10px;
+      padding: 10px 20px;
       font-size: 14px;
-      background-color: #4CAF50; /* Green */
+      background-color: #007BFF;
       color: white;
       border: none;
+      border-radius: 8px;
       cursor: pointer;
+      transition: background-color 0.3s;
+      box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
     }
+
     button:hover {
-      background-color: #45a049;
+      background-color: #0056b3;
+    }
+
+    button:focus {
+      outline: none;
+      background-color: #003f7f;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 20px;
+      }
+
+      #map {
+        height: 400px;
+      }
+
+      button {
+        padding: 10px;
+        font-size: 12px;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Map Container -->
   <div id="map"></div>
 
+  <!-- Controls for map interaction -->
   <div class="controls">
     <button onclick="centerMap()">Center Map</button>
     <button onclick="startTracking()">Start Tracking</button>
     <button onclick="stopTracking()">Stop Tracking</button>
   </div>
 
+  <!-- Leaflet.js Script -->
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
   <script>
     // Initial center coordinates and zoom level
     var initialCenter = [750, 750]; // Center of the map based on the image dimensions
@@ -74,21 +126,21 @@
 
     // Add descriptions for each floor next to their layer name
     var baseLayers = {
-      "Basement Floor (B1 - Mechanical Equipment)": floorB1,
+      "Basement Floor": floorB1,
       "Floor 1 (Lobby and Emergency)": floor1,
-      "Floor 2 (Outpatient Services)": floor2,
-      "Floor 3 (Pediatrics)": floor3,
-      "Floor 4 (Surgery)": floor4,
-      "Floor 5 (ICU and Recovery)": floor5,
-      "Floor 6 (Maternity Ward)": floor6,
-      "Floor 7 (General Wards)": floor7,
-      "Floor 8 (Cardiology)": floor8,
-      "Floor 9 (Radiology and Imaging)": floor9,
-      "Floor 10 (Orthopedics)": floor10,
-      "Floor 11 (Neurology)": floor11,
-      "Floor 12 (Oncology)": floor12,
-      "Floor 14 (Administration and Research)": floor14,
-      "Floor 15 (Executive Offices)": floor15
+      "Floor 2 (PACU and Day Surgery)": floor2,
+      "Floor 3 (Pharmacy/Blood bank)": floor3,
+      "Floor 4 (CICU and Cath lab)": floor4,
+      "Floor 5 (CACU)": floor5,
+      "Floor 6 (NICU)": floor6,
+      "Floor 7 (NICU and PICU)": floor7,
+      "Floor 8 (PICU and Respiratory)": floor8,
+      "Floor 9 (AFLAC)": floor9,
+      "Floor 10 (BMT)": floor10,
+      "Floor 11 ()": floor11,
+      "Floor 12 (TSU AND GPC)": floor12,
+      "Floor 14 (TICU AND GPC)": floor14,
+      "Floor 15 ()": floor15
     };
 
     // Add the layer control to the map with descriptions
@@ -118,35 +170,3 @@
     // Function to stop tracking
     function stopTracking() {
       if (isTracking) {
-        map.stopLocate();  // Stop location tracking
-        if (userMarker) {
-          map.removeLayer(userMarker);  // Remove the user marker from the map
-        }
-        isTracking = false;
-      }
-    }
-
-    // Handle the location found event
-    function onLocationFound(e) {
-      var radius = e.accuracy / 2;
-
-      // Remove the old marker, if it exists
-      if (userMarker) {
-        map.removeLayer(userMarker);
-      }
-
-      // Add a marker for the user's location and show the accuracy circle
-      userMarker = L.circleMarker(e.latlng, {
-        radius: 8,
-        color: 'blue'
-      }).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup();
-    }
-
-    // Handle location errors
-    function onLocationError(e) {
-      alert(e.message);  // Alert the user of any location errors
-    }
-
-  </script>
-</body>
-</html>
