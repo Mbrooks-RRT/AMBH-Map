@@ -104,15 +104,43 @@
       var mapHeight = 1500;
       var bounds = [[0, 0], [mapHeight, mapWidth]];
 
-      // Add a floor plan overlay (replace 'Level 1.png' with your actual image)
+      // Create overlays for each floor
+      var floorB1 = L.imageOverlay('B Level.png', bounds);
       var floor1 = L.imageOverlay('Level 1.png', bounds).addTo(map); // Default floor
+      var floor2 = L.imageOverlay('Level 2.png', bounds);
+      var floor3 = L.imageOverlay('Level 3.png', bounds);
+      var floor4 = L.imageOverlay('Level 4.png', bounds);
+      var floor5 = L.imageOverlay('Level 5.png', bounds);
+      var floor6 = L.imageOverlay('Level 6.png', bounds);
+      var floor7 = L.imageOverlay('Level 7.png', bounds);
+      var floor8 = L.imageOverlay('Level 8.png', bounds);
+      var floor9 = L.imageOverlay('Level 9.png', bounds);
+      var floor10 = L.imageOverlay('Level 10.png', bounds);
+      var floor11 = L.imageOverlay('Level 11.png', bounds);
+      var floor12 = L.imageOverlay('Level 12.png', bounds);
+      var floor14 = L.imageOverlay('Level 14.png', bounds);
+      var floor15 = L.imageOverlay('Level 15.png', bounds);
 
-      // Add layer control for future floors (if needed)
+      // Add descriptions for each floor next to their layer name
       var baseLayers = {
-        "Floor 1": floor1
-        // Add other floors as needed, e.g., "Floor 2": L.imageOverlay('Level 2.png', bounds)
+        "Basement Floor": floorB1,
+        "Floor 1 (Lobby and Emergency)": floor1,
+        "Floor 2 (PACU and Day Surgery)": floor2,
+        "Floor 3 (Pharmacy/Blood bank)": floor3,
+        "Floor 4 (CICU and Cath lab)": floor4,
+        "Floor 5 (CACU)": floor5,
+        "Floor 6 (NICU)": floor6,
+        "Floor 7 (NICU and PICU)": floor7,
+        "Floor 8 (PICU and Respiratory)": floor8,
+        "Floor 9 (AFLAC)": floor9,
+        "Floor 10 (BMT)": floor10,
+        "Floor 11 (Empty Description)": floor11,
+        "Floor 12 (TSU AND GPC)": floor12,
+        "Floor 14 (TICU AND GPC)": floor14,
+        "Floor 15 ()": floor15
       };
 
+      // Add layer control to switch between floors
       L.control.layers(baseLayers).addTo(map);
 
       // Function to center the map back to its original position
