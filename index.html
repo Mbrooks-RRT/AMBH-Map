@@ -29,9 +29,9 @@
     #map {
       height: 80vh;  /* 80% of the viewport height */
       width: 80vw;   /* 80% of the viewport width */
-      border-radius: 12px;
+      border-radius: 6px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     /* Controls positioned above the map */
@@ -96,19 +96,19 @@
       // Initialize the map
       var map = L.map('map', {
         center: [750, 750],      // Center the map at the midpoint of the overall image
-        zoom: -2,                // Initial zoom level
+        zoom: -1,                // Initial zoom level
         minZoom: -2,             // Allow zooming out further
         crs: L.CRS.Simple        // Use CRS.Simple for non-geographical maps
       });
 
       // Define overall map size
-      var mapHeight = 3000;  // Height for all images
+      var mapHeight = 1500;  // Height for all images
       var mapWidth = 3000;   // Width to accommodate two images side by side per level
       var bounds = [[0, 0], [mapHeight, mapWidth]];
 
       // Create unique bounds for images that are side by side
-      var leftBounds = [[0, 0], [mapHeight, 1500]];     // Left half (e.g., Level 1)
-      var rightBounds = [[0, 1500], [mapHeight, 2500]]; // Right half (e.g., Level 1 South)
+      var leftBounds = [[0, 0], [mapHeight, 2000]];     // Left half (e.g., Level 1)
+      var rightBounds = [[0, 2000], [mapHeight, 3000]]; // Right half (e.g., Level 1 South)
 
       // Group each level with its corresponding "South" side by side
       var floor1 = L.layerGroup([
@@ -119,6 +119,7 @@
       var floor2 = L.layerGroup([
         L.imageOverlay('Level 2.png', leftBounds),
         L.imageOverlay('Level 2 South.png', rightBounds)
+        L.imageOverlay('Level 2B South.png', rightBounds)
       ]);
 
       var floor3 = L.layerGroup([
